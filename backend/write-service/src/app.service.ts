@@ -26,7 +26,7 @@ export class AppService {
     const client = await this.pool.connect();
     try {
       const { rows } = await client.query(
-        "INSERT INTO todos(title, description) VALUES($1, $2) RETURNING *",
+        "INSERT INTO write(title, content, tags) VALUES($1, $2) RETURNING *",
         [write.title, write.content, write.tags]
       );
       return rows[0];
