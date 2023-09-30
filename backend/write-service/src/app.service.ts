@@ -12,11 +12,11 @@ export class AppService {
     });
   }
 
-  async query(queryString: string, params: any[] = []): Promise<any> {
+  async getAll(): Promise<Write[]> {
     const client = await this.pool.connect();
     try {
-      const result = await client.query(queryString, params);
-      return result;
+      const { rows } = await client.query("SELECT * FROM write");
+      return rows;
     } finally {
       client.release();
     }
@@ -26,7 +26,7 @@ export class AppService {
     const client = await this.pool.connect();
     try {
       const { rows } = await client.query(
-        "INSERT INTO write(title, content, tags) VALUES($1, $2) RETURNING *",
+        "INSERT INTO write(title, content, tags) VALUES($1, $2, $3) RETURNING *",
         [write.title, write.content, write.tags]
       );
       return rows[0];

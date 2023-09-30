@@ -6,16 +6,10 @@ import { Write } from "./models/write.model";
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get("/test")
-  async findAll(): Promise<any[]> {
-    const query = "SELECT * FROM write";
-
-    try {
-      const data = await this.appService.query(query);
-      return data;
-    } catch (error) {
-      throw error;
-    }
+  @Get("/get")
+  async get(): Promise<Write[]> {
+    const data = await this.appService.getAll();
+    return data;
   }
 
   @Post("/write")
