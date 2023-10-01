@@ -1,0 +1,55 @@
+[
+  {
+    "id": 1,
+    "title": "Advanced Data Structures in Python",
+    "content": "Explore advanced data structures like heaps, AVL trees, and hash tables in Python. Learn when and how to use them in your projects.",
+    "tags": ["Python", "data structures", "intermediate", "programming"]
+  },
+  {
+    "id": 2,
+    "title": "Concurrency Patterns in Java",
+    "content": "Dive into Java concurrency patterns and techniques for building multi-threaded applications. Master the art of thread synchronization.",
+    "tags": ["Java", "concurrency", "intermediate", "programming"]
+  },
+  {
+    "id": 3,
+    "title": "Optimizing SQL Queries for Performance",
+    "content": "Learn strategies for optimizing SQL queries to improve the performance of your database-driven applications. Discover indexing, query tuning, and more.",
+    "tags": ["SQL", "database", "performance", "intermediate", "programming"]
+  },
+  {
+    "id": 4,
+    "title": "Advanced JavaScript Techniques",
+    "content": "Take your JavaScript skills to the next level with advanced techniques like closures, promises, and asynchronous programming. Level up your web development projects.",
+    "tags": ["JavaScript", "web development", "intermediate", "programming"]
+  },
+  {
+    "id": 5,
+    "title": "Mastering Object-Oriented Design Patterns",
+    "content": "Explore advanced object-oriented design patterns such as Singleton, Observer, and Factory. Apply these patterns to create scalable and maintainable software.",
+    "tags": [
+      "design patterns",
+      "object-oriented",
+      "intermediate",
+      "programming"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Efficient Memory Management in C++",
+    "content": "Learn techniques for efficient memory management in C++. Dive into smart pointers, RAII, and best practices for resource management.",
+    "tags": ["C++", "memory management", "intermediate", "programming"]
+  },
+  {
+    "id": 7,
+    "title": "Advanced React Component Patterns",
+    "content": "Discover advanced component patterns in React, including render props, higher-order components (HOCs), and custom hooks. Build highly reusable UI components.",
+    "tags": ["React", "frontend development", "intermediate", "programming"]
+  },
+  {
+    "id": 8,
+    "title": "Effective Debugging Strategies",
+    "content": "Become a master at debugging your code. Learn essential strategies and tools for diagnosing and fixing bugs in your software projects.",
+    "tags": ["debugging", "development", "programming", "intermediate"]
+  }
+]
