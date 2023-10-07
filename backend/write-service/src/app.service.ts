@@ -12,6 +12,18 @@ export class AppService {
     });
   }
 
+  async getOne(id: number): Promise<Write | null> {
+    const client = await this.pool.connect();
+    try {
+      const { rows } = await client.query("SELECT * FROM write WHERE id = $1", [
+        id,
+      ]);
+      return rows[0] || null;
+    } finally {
+      client.release();
+    }
+  }
+
   async getAll(): Promise<Write[]> {
     const client = await this.pool.connect();
     try {

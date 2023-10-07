@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { Write } from "./models/write.model";
 
@@ -6,9 +6,15 @@ import { Write } from "./models/write.model";
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get("/get")
-  async get(): Promise<Write[]> {
+  @Get("/getAll")
+  async getAll(): Promise<Write[]> {
     const data = await this.appService.getAll();
+    return data;
+  }
+
+  @Get("/getOne")
+  async getOne(@Query("id") id: number): Promise<Write> {
+    const data = await this.appService.getOne(id);
     return data;
   }
 
