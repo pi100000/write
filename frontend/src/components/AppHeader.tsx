@@ -10,7 +10,7 @@ const AppHeader: React.FC<AppHeaderProps> = (props) => {
         <h1>WRITE</h1>
         <nav>
           <ul>
-            <li>Home</li>
+            <li>Search</li>
             <li>About</li>
           </ul>
         </nav>

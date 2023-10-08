@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import ContentCard from "./components/ContentCard";
-import data from "./data.json";
 import AppHeader from "./components/AppHeader";
+import { getAll } from "./services/write.service";
 
 type AppProps = React.FC;
 
 const App: AppProps = () => {
-  const contentCards = data.map((item) => (
+  type Write = {
+    id: number;
+    title: string;
+    content: string;
+    tags: string[];
+  };
+
+  const [writeData, setWriteData] = useState<Write[]>([]);
+
+  const contentCards = writeData.map((item) => (
     <ContentCard key={item.id} item={item} />
   ));
+
+  const getData = async () => {
+    let data = await getAll();
+    setWriteData(data.data);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
