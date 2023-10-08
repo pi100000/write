@@ -80,4 +80,13 @@ export class AppService {
       client.release();
     }
   }
+
+  async delete(id: number): Promise<void> {
+    const client = await this.pool.connect();
+    try {
+      await client.query("DELETE FROM write WHERE id = $1", [id]);
+    } finally {
+      client.release();
+    }
+  }
 }

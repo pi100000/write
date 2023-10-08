@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -24,8 +25,8 @@ export class AppController {
     return data;
   }
 
-  @Get("/getOne")
-  async getOne(@Query("id") id: number): Promise<Write> {
+  @Get("/getOne/:id")
+  async getOne(@Param("id", ParseIntPipe) id: number): Promise<Write> {
     const data = await this.appService.getOne(id);
     return data;
   }
@@ -36,12 +37,17 @@ export class AppController {
     return create;
   }
 
-  @Put("/update")
+  @Put("/update/:id")
   async update(
-    @Query("id") id: number,
+    @Param("id", ParseIntPipe) id: number,
     @Body() updateWriteDto: updateWriteDto
   ): Promise<Write> {
     const updatedData = await this.appService.updateOne(id, updateWriteDto);
     return updatedData;
+  }
+
+  @Delete("/delete/:id")
+  async delete(@Param("id", ParseIntPipe) id: number): Promise<void> {
+    await this.appService.delete(id);
   }
 }
