@@ -1,9 +1,9 @@
 import React from "react";
-import "../App.css";
+import "./index.css";
 
 type AppHeaderProps = {};
 
-const AppHeader: React.FC<AppHeaderProps> = (props) => {
+const AppHeader: React.FC<AppHeaderProps> = () => {
   return (
     <header className="app-header">
       <div className="header-content">

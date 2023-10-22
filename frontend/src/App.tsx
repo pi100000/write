@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import ContentCard from "./components/ContentCard";
-import AppHeader from "./components/AppHeader";
+import ContentCard from "./components/ContentCard/ContentCard";
+import AppHeader from "./components/AppHeader/AppHeader";
 import { getAll } from "./services/write.service";
 
 type AppProps = React.FC;
