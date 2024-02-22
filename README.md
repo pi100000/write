@@ -3,9 +3,13 @@
 ## Frontend
 
 `in progress...`
-`cmd...`
+
+`cd frontend`
+`npm run dev`
 
 ## Backend
 
 `in progress...`
-`cmd...`
+
+`cd backend/write-service`
+`npm run start:dev`
