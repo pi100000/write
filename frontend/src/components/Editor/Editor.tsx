@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { createEditor } from "slate";
 import { Editable, Slate, withReact } from "slate-react";
 
@@ -15,11 +15,9 @@ const Editor = (props: Props) => {
   ];
 
   return (
-    <div>
-      <Slate editor={editor} initialValue={initialValue}>
-        <Editable />
-      </Slate>
-    </div>
+    <Slate editor={editor} initialValue={initialValue}>
+      <Editable style={{ height: "100%", width: "100%" }} />
+    </Slate>
   );
 };
 
