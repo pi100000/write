@@ -3,12 +3,10 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   ParseIntPipe,
   Post,
   Put,
-  Query,
 } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { Write } from "./models/write.model";
