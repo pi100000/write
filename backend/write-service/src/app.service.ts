@@ -3,6 +3,10 @@ import { Pool } from "pg";
 import { Write } from "./models/write.model";
 import { createWriteDto } from "dto/create-write.dto";
 import { updateWriteDto } from "dto/update-write.dto";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { writeTable } from "database/schema";
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const db = drizzle(pool);
 
 @Injectable()
 export class AppService {
@@ -30,7 +34,7 @@ export class AppService {
   async getAll(): Promise<Write[]> {
     const client = await this.pool.connect();
     try {
-      const { rows } = await client.query("SELECT * FROM write");
+      const rows = await db.select().from(writeTable);
       return rows;
     } finally {
       client.release();
