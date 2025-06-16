@@ -5,6 +5,7 @@ import { createWriteDto } from "dto/create-write.dto";
 import { updateWriteDto } from "dto/update-write.dto";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { writeTable } from "database/schema";
+import { eq, sql } from "drizzle-orm";
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const db = drizzle(pool);
 
@@ -19,16 +20,13 @@ export class AppService {
   }
 
   async getOne(id: number): Promise<Write | null> {
-    const client = await this.pool.connect();
-    try {
-      const { rows } = await client.query({
-        text: `SELECT * FROM write WHERE id = $1`,
-        values: [id],
-      });
-      return rows[0] || null;
-    } finally {
-      client.release();
-    }
+    const result = await db
+      .select()
+      .from(writeTable)
+      .where(eq(writeTable.id, id))
+      .limit(1);
+
+    return result[0] || null;
   }
 
   async getAll(): Promise<Write[]> {
@@ -42,55 +40,36 @@ export class AppService {
   }
 
   async create(write: createWriteDto): Promise<createWriteDto> {
-    const client = await this.pool.connect();
-    try {
-      const { rows } = await client.query({
-        text: `INSERT INTO write(title, content, tags) VALUES($1, $2, $3) RETURNING *`,
-        values: [write.title, write.content, write.tags],
-      });
-      return rows[0];
-    } finally {
-      client.release();
-    }
+    const [newWrite] = await db
+      .insert(writeTable)
+      .values({
+        title: write.title,
+        content: write.content,
+        tags: write.tags,
+      })
+      .returning();
+
+    return newWrite;
   }
 
   async updateOne(
     id: number,
     updateWriteDto: updateWriteDto
   ): Promise<Write | null> {
-    const client = await this.pool.connect();
-    try {
-      const query = {
-        text: `
-          UPDATE write
-          SET
-            title = COALESCE($2, title),
-            content = COALESCE($3, content),
-            tags = COALESCE($4, tags)
-          WHERE id = $1
-          RETURNING *
-          `,
-        values: [
-          id,
-          updateWriteDto.title,
-          updateWriteDto.content,
-          updateWriteDto.tags,
-        ],
-      };
+    const [updated] = await db
+      .update(writeTable)
+      .set({
+        title: sql`COALESCE(${updateWriteDto.title}, ${writeTable.title})`,
+        content: sql`COALESCE(${updateWriteDto.content}, ${writeTable.content})`,
+        tags: sql`COALESCE(${updateWriteDto.tags}, ${writeTable.tags})`,
+      })
+      .where(eq(writeTable.id, id))
+      .returning();
 
-      const { rows } = await client.query(query);
-      return rows[0] || null;
-    } finally {
-      client.release();
-    }
+    return updated || null;
   }
 
   async delete(id: number): Promise<void> {
-    const client = await this.pool.connect();
-    try {
-      await client.query("DELETE FROM write WHERE id = $1", [id]);
-    } finally {
-      client.release();
-    }
+    await db.delete(writeTable).where(eq(writeTable.id, id));
   }
 }
