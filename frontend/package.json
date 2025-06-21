@@ -10,12 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/slate": "^0.47.15",
+    "@tiptap/pm": "^2.22.0",
+    "@tiptap/react": "^2.22.0",
+    "@tiptap/starter-kit": "^2.22.0",
     "axios": "^1.5.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "slate": "^0.102.0",
-    "slate-react": "^0.102.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.8.3",

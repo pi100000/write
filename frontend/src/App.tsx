@@ -3,6 +3,7 @@ import "./App.css";
 import ContentCard from "./components/ContentCard/ContentCard";
 import AppHeader from "./components/AppHeader/AppHeader";
 import { getAll } from "./services/write.service";
+import Editor from "./components/Editor/Editor";
 
 type AppProps = React.FC;
 
@@ -33,6 +34,7 @@ const App: AppProps = () => {
   return (
     <>
       <AppHeader />
+      {/* <Editor /> */}
       <div className="content-cards-container">{contentCards}</div>
     </>
   );

@@ -1,23 +1,16 @@
-import { useState } from "react";
-import { createEditor } from "slate";
-import { Editable, Slate, withReact } from "slate-react";
+import { EditorProvider, FloatingMenu, BubbleMenu } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 
-type Props = {};
+const extensions = [StarterKit];
 
-const Editor = (props: Props) => {
-  const [editor] = useState(() => withReact(createEditor()));
+const content = "<p>Base Editor</p>";
 
-  const initialValue: any = [
-    {
-      type: "paragraph",
-      children: [{ text: "this is a base example" }],
-    },
-  ];
-
+const Editor = () => {
   return (
-    <Slate editor={editor} initialValue={initialValue}>
-      <Editable style={{ height: "100%", width: "100%" }} />
-    </Slate>
+    <EditorProvider extensions={extensions} content={content}>
+      <FloatingMenu editor={null}>This is the floating menu</FloatingMenu>
+      <BubbleMenu editor={null}>This is the bubble menu</BubbleMenu>
+    </EditorProvider>
   );
 };
 
