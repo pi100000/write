@@ -5,7 +5,7 @@ import { createWriteDto } from "dto/create-write.dto";
 import { updateWriteDto } from "dto/update-write.dto";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { writeTable } from "database/schema";
-import { eq, sql } from "drizzle-orm";
+import { eq, ilike, sql } from "drizzle-orm";
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const db = drizzle(pool);
 
@@ -71,5 +71,12 @@ export class AppService {
 
   async delete(id: number): Promise<void> {
     await db.delete(writeTable).where(eq(writeTable.id, id));
+  }
+
+  async searchByTitle(searchTerm: string): Promise<Write[]> {
+    return await db
+      .select()
+      .from(writeTable)
+      .where(ilike(writeTable.title, `%${searchTerm}%`));
   }
 }

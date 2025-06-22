@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -7,6 +8,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { Write } from "./models/write.model";
@@ -47,5 +49,13 @@ export class AppController {
   @Delete("/delete/:id")
   async delete(@Param("id", ParseIntPipe) id: number): Promise<void> {
     await this.appService.delete(id);
+  }
+
+  @Get("/search/title")
+  async searchByTitle(@Query("term") term: string): Promise<Write[]> {
+    if (!term) {
+      throw new BadRequestException("Search term is required");
+    }
+    return await this.appService.searchByTitle(term);
   }
 }
