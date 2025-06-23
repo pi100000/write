@@ -40,6 +40,10 @@ describe("AppController", () => {
     service = module.get<AppService>(AppService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe("create", () => {
     it("should create and return a new write", async () => {
       jest.spyOn(service, "create").mockResolvedValue(mockWrite);
