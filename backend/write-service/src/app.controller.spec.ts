@@ -21,6 +21,25 @@ describe("AppController", () => {
     tags: ["new", "test"],
   };
 
+  beforeEach(async () => {
+    const mockService = {
+      create: jest.fn(),
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [AppController],
+      providers: [
+        {
+          provide: AppService,
+          useValue: mockService,
+        },
+      ],
+    }).compile();
+
+    controller = module.get<AppController>(AppController);
+    service = module.get<AppService>(AppService);
+  });
+
   describe("create", () => {
     it("should create and return a new write", async () => {
       jest.spyOn(service, "create").mockResolvedValue(mockWrite);
