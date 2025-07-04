@@ -6,8 +6,10 @@ import { updateWriteDto } from "dto/update-write.dto";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { writeTable } from "database/schema";
 import { eq, ilike, sql } from "drizzle-orm";
+import * as schema from "../database/schema";
+
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const db = drizzle(pool);
+const db = drizzle(pool, { schema });
 
 @Injectable()
 export class AppService {
@@ -20,13 +22,18 @@ export class AppService {
   }
 
   async getOne(id: number): Promise<Write | null> {
-    const result = await db
-      .select()
-      .from(writeTable)
-      .where(eq(writeTable.id, id))
-      .limit(1);
+    try {
+      const result = await db
+        .select()
+        .from(writeTable)
+        .where(eq(writeTable.id, id))
+        .limit(1);
 
-    return result[0] || null;
+      return result[0] || null;
+    } catch (error) {
+      console.error("error getting write:", error);
+      throw new Error("failed to get write");
+    }
   }
 
   async getAll(): Promise<Write[]> {
@@ -34,39 +41,50 @@ export class AppService {
     try {
       const rows = await db.select().from(writeTable);
       return rows;
-    } finally {
-      client.release();
+    } catch (error) {
+      console.error("error getting write:", error);
+      throw new Error("failed to get all write");
     }
   }
 
   async create(write: createWriteDto): Promise<createWriteDto> {
-    const [newWrite] = await db
-      .insert(writeTable)
-      .values({
-        title: write.title,
-        content: write.content,
-        tags: write.tags,
-      })
-      .returning();
+    try {
+      const [newWrite] = await db
+        .insert(writeTable)
+        .values({
+          title: write.title,
+          content: write.content,
+          tags: write.tags,
+        })
+        .returning();
 
-    return newWrite;
+      return newWrite;
+    } catch (error) {
+      console.error("error creating write:", error);
+      throw new Error("failed to create write");
+    }
   }
 
   async updateOne(
     id: number,
     updateWriteDto: updateWriteDto
   ): Promise<Write | null> {
-    const [updated] = await db
-      .update(writeTable)
-      .set({
-        title: sql`COALESCE(${updateWriteDto.title}, ${writeTable.title})`,
-        content: sql`COALESCE(${updateWriteDto.content}, ${writeTable.content})`,
-        tags: sql`COALESCE(${updateWriteDto.tags}, ${writeTable.tags})`,
-      })
-      .where(eq(writeTable.id, id))
-      .returning();
+    try {
+      const [updated] = await db
+        .update(writeTable)
+        .set({
+          title: sql`COALESCE(${updateWriteDto.title}, ${writeTable.title})`,
+          content: sql`COALESCE(${updateWriteDto.content}, ${writeTable.content})`,
+          tags: sql`COALESCE(${updateWriteDto.tags}, ${writeTable.tags})`,
+        })
+        .where(eq(writeTable.id, id))
+        .returning();
 
-    return updated || null;
+      return updated || null;
+    } catch (error) {
+      console.error("error updating write:", error);
+      throw new Error("failed to update write");
+    }
   }
 
   async delete(id: number): Promise<void> {
@@ -74,9 +92,14 @@ export class AppService {
   }
 
   async searchByTitle(searchTerm: string): Promise<Write[]> {
-    return await db
-      .select()
-      .from(writeTable)
-      .where(ilike(writeTable.title, `%${searchTerm}%`));
+    try {
+      return await db
+        .select()
+        .from(writeTable)
+        .where(ilike(writeTable.title, `%${searchTerm}%`));
+    } catch (error) {
+      console.error("error searching write:", error);
+      throw new Error("failed to search write");
+    }
   }
 }
